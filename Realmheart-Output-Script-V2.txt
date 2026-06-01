@@ -1,5 +1,5 @@
 // ============================================================
-//  UBIS OUTPUT MODIFIER
+//  REALMHEART OUTPUT MODIFIER
 // ============================================================
 const modifier = (text) => {
   text = onOutput_UBIS(text);
