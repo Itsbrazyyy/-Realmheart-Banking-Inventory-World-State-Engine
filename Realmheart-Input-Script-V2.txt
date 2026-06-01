@@ -1,5 +1,5 @@
 // ============================================================
-//  UBIS INPUT MODIFIER
+//  REALMHEART INPUT MODIFIER
 // ============================================================
 const modifier = (text) => {
   text = onInput_UBIS(text);
