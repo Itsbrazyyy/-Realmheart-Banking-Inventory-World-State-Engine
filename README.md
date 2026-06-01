@@ -89,7 +89,7 @@ modifier(text);
 #### 11. Go to your **Library** tab. Delete everything inside it.
 
 #### 12. Open the link below, copy the entire Library script, and paste it into your Library tab:
-[Realmheart Library V2.1](https://github.com/Itsbrazyyy/Ultimate-Banking-Inventory-System)
+[Realmheart Library V2.1](https://github.com/Itsbrazyyy/Ultimate-Banking-Inventory-System/blob/Update-Branch/Realmheart-Library-Script-V2.1txt)
 
 #### 13. Click **SAVE** in the top right corner.
 
