@@ -1,5 +1,5 @@
 // ============================================================
-//  UBIS CONTEXT MODIFIER
+//  REALMHEART CONTEXT MODIFIER
 // ============================================================
 const modifier = (text) => {
   text = onContext_UBIS(text);
