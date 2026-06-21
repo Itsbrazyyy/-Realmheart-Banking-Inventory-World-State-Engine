@@ -1,7 +1,7 @@
 # 🌎 Realmheart 🌎
 ### (Formerly UBIS — Ultimate Banking Inventory System)
 
-## Banking, Inventory & World-State Engine for AI Dungeon
+## Banking, Inventory & World-State Engine for AI Dungeon.
 
 ![Realmheart Banner](https://i.postimg.cc/gkwmkG5n/AI-Dungeon-(2).png)
 
