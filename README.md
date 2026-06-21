@@ -89,7 +89,7 @@ modifier(text);
 #### 11. Go to your **Library** tab. Delete everything inside it.
 
 #### 12. Open the link below, copy the entire Library script, and paste it into your Library tab:
-[Realmheart Library V2.1](https://github.com/Itsbrazyyy/Ultimate-Banking-Inventory-System/blob/Update-Branch/Realmheart-Library-Script-V2.1txt)
+[Realmheart Library V2.2](https://github.com/Itsbrazyyy/-Realmheart-Banking-Inventory-World-State-Engine/blob/4e974c35e9e07ba80e51560d74fbca1e7675ae43/Realmheart-Library-Script-V2.2txt)
 
 #### 13. Click **SAVE** in the top right corner.
 
@@ -130,7 +130,7 @@ modifier(text);
 <details>
 <summary><strong>Click to expand</strong></summary>
 
-V2.2 — Bug Fix Pass
+### V2.2 — Bug Fix Pass
 Time & Calendar
 
 Fixed Adventure Day going out of sync when manually editing Year/Month/Day on the Configure Time card
@@ -168,6 +168,7 @@ Script Toggles
 
 -Fixed /rh disable / /ubis disable not actually stopping detection while toggled off
 -Fixed several Configure Realmheart toggles (Inventory, Currency, Time, Bills auto-detection; Configure Realmheart, Configure Time, and Prices & Goods card visibility) silently failing or reverting due to internal naming conflicts
+
 
 ### V2.1 — Realmheart
 - Modern and Sci-Fi presets now have their own default holidays, price lists, and starting inventory. Previous versions used fantasy defaults across all presets.
