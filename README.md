@@ -130,6 +130,45 @@ modifier(text);
 <details>
 <summary><strong>Click to expand</strong></summary>
 
+V2.2 — Bug Fix Pass
+Time & Calendar
+
+Fixed Adventure Day going out of sync when manually editing Year/Month/Day on the Configure Time card
+
+Events
+- Event and holiday context now injected earlier in AI context for stronger prioritization
+- Removed the leftover example event ("Cassidy visits Milani") and replaced it with a clearly labeled, preset-neutral "Example Event"
+
+Time-Skip Detection
+
+- Fixed "passed" tense not being recognized ("2 hours passed," "10 minutes passed," etc.)
+- Added word-number support ("two hours later," "a dozen days later")
+- Added minute-level time-skip detection
+
+Currency & Inventory Detection
+
+- Added missing verbs to currency detection: steal, stole, obtain, obtained, pick up, take
+- Fixed inventory dump spamming full bag contents on every change — now shows a compact summary with item/type counts
+
+Presets
+
+- Fixed preset switching (fantasy/modern/sci-fi) failing to apply mid-scenario
+- Switching preset now correctly regenerates Prices & Goods, Holidays, Bills, and Income to match the new preset's defaults
+
+Prices & Goods
+
+- Fixed ADD ITEM, DEL ITEM, ADD CATEGORY, DEL CATEGORY, and RENAME CATEGORY commands not registering
+
+Holidays
+
+- Fixed "Edit:" prefix on instructions being misread as a literal command
+- Fixed newly added holiday types not displaying due to capitalization mismatch
+
+Script Toggles
+
+-Fixed /rh disable / /ubis disable not actually stopping detection while toggled off
+-Fixed several Configure Realmheart toggles (Inventory, Currency, Time, Bills auto-detection; Configure Realmheart, Configure Time, and Prices & Goods card visibility) silently failing or reverting due to internal naming conflicts
+
 ### V2.1 — Realmheart
 - Modern and Sci-Fi presets now have their own default holidays, price lists, and starting inventory. Previous versions used fantasy defaults across all presets.
 - The Prices & Goods and Holidays cards now display preset-appropriate content on first load.
