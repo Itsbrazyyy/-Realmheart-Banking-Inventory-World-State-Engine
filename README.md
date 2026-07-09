@@ -89,7 +89,7 @@ modifier(text);
 #### 11. Go to your **Library** tab. Delete everything inside it.
 
 #### 12. Open the link below, copy the entire Library script, and paste it into your Library tab:
-[Realmheart Library V2.2](https://github.com/Itsbrazyyy/-Realmheart-Banking-Inventory-World-State-Engine/blob/4e974c35e9e07ba80e51560d74fbca1e7675ae43/Realmheart-Library-Script-V2.2txt)
+[Realmheart Library V2.3](https://github.com/Itsbrazyyy/-Realmheart-Banking-Inventory-World-State-Engine/blob/e3567e6beee992cc87efdb1aabbd44c645eeeb92/Realmheart-Library-Script-V2.3txt)
 
 #### 13. Click **SAVE** in the top right corner.
 
@@ -129,6 +129,18 @@ modifier(text);
 
 <details>
 <summary><strong>Click to expand</strong></summary>
+
+### V2.3 - Bug Fixes Pass 
+- ✅ Time-skip detection improved — better handling of past tense, word numbers, and minute-level skips
+- ✅ Currency detection expanded to catch more phrasing (steal, obtain, pick up, take, etc.)
+- ✅ Adventure Day now stays in sync with manual date edits
+- ✅ Preset switching now correctly updates Bills, Income, Prices & Goods, and Holidays together
+- ✅ Sci-fi currency no longer inherits Dollar/$ from a previous modern preset
+- ✅ startingBalance in the config block now actually works
+- ✅ /rh disable fully stops all detection, not just the display
+- ✅ Several Configure Realmheart toggles that were silently broken or reverting are now fixed
+- ✅ Story cards toggled OFF now properly disappear instead of lingering
+- ✅ Example Event replaced with a clean, preset-neutral placeholder
 
 ### V2.2 — Bug Fix Pass
 Time & Calendar
