@@ -8,6 +8,7 @@
 ### Realmheart brings structure, immersion, and world-simulation to your AI Dungeon adventures.
 It handles currency, inventory, bills, income, time progression, weather, holidays, events, price references, and story card syncing — all automatically. Designed for players who want deeper worlds, consistent rules, and a smooth quality-of-life experience.
 
+### Check Out My Collection of Realmheart Driven Scenarios https://play.aidungeon.com/scenario/rbgcFn0lVoLn/rh-a-name-worth-earning?share=true&unlisted=true
 ---
 
 ## ✨ Features
