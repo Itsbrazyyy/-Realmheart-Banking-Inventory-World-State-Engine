@@ -1,5 +1,5 @@
 // ============================================================
-// Realmheart — Economy & World State System  v2.2
+// Realmheart — Economy & World State System  v2.3
 // ============================================================
 // A full economy, inventory, and world-state tracking system
 // for AI Dungeon scenarios.
@@ -98,7 +98,13 @@ function ubisGetInventoryLabel(){if(UBIS_CONFIG.inventoryLabel)return UBIS_CONFI
 function ubisGetDefaultBills(){if(UBIS_CONFIG.startingBills!==null)return UBIS_CONFIG.startingBills;var m=ubisResolvePreset();if(m==="modern")return[{name:"Rent",amount:1200,intervalDays:30,enabled:true,items:[]}];if(m==="sci-fi")return[{name:"Berth Fee",amount:300,intervalDays:30,enabled:true,items:[]}];return[{name:"Inn Stay",amount:20,intervalDays:1,enabled:true,items:[]}];}
 function ubisGetDefaultIncome(){if(UBIS_CONFIG.startingIncome!==null)return UBIS_CONFIG.startingIncome;var m=ubisResolvePreset();if(m==="modern")return[{name:"Job Salary",amount:600,intervalDays:7,enabled:false}];if(m==="sci-fi")return[{name:"Crew Stipend",amount:250,intervalDays:7,enabled:false}];return[{name:"Merchant Salary",amount:100,intervalDays:30,enabled:false}];}
 function ubisGetDefaultInventory(){if(UBIS_CONFIG.startingInventory!==null)return UBIS_CONFIG.startingInventory;var m=ubisResolvePreset();if(m==="modern")return{"Wallet":1,"Phone":1,"Keys":1,"Backpack":1,"Protein Bar":2};if(m==="sci-fi")return{"Comms Unit":1,"Rations Pack":3,"Sidearm":1,"Credit Chip":1};return{"Traveler's Pack":1,"Torch":3,"Rations":5,"Dagger":1};}
-function ubisGetDefaultBalance(){var m=ubisResolvePreset();if(m==="modern")return 500;if(m==="sci-fi")return 500;return 500;}
+function ubisGetDefaultBalance(){
+  if(UBIS_CONFIG.startingBalance!==null)return UBIS_CONFIG.startingBalance;
+  var m=ubisResolvePreset();
+  if(m==="modern")return 500;
+  if(m==="sci-fi")return 500;
+  return 500;
+}
 function ubisGetDefaultHolidays(){var m=ubisResolvePreset();
 if(m==="modern")return[
   {name:"New Year's Day",month:1,day:1,type:"holiday",enabled:true,description:"The new year begins. People celebrate with fireworks, parties, and resolutions."},
@@ -240,7 +246,7 @@ function ubisAddItem(U,n,q){q=q||1;if(!n||q<=0)return;U.inventory[n]=(U.inventor
 function ubisRemoveItem(U,n,q,force){q=q||1;var key=ubisFindInvKey(U,n);if(!key){if(!force){U.denied=U.denied||[];U.denied.push("[BLOCKED] \""+n+"\" not in inventory.");}return false;}if(U.inventory[key]<q){if(!force){U.denied=U.denied||[];U.denied.push("[BLOCKED] Only "+U.inventory[key]+"x \""+key+"\" — need "+q+".");}return false;}U.inventory[key]-=q;if(U.inventory[key]<=0)delete U.inventory[key];ubisLedger(U,"inv_remove",key+" x"+q,0);return true;}
 function ubisEnsureCounters(U){var d=ubisTotalDays(U.time);for(var i=0;i<U.settings.bills.length;i++){if(U.billCounters[U.settings.bills[i].name]===undefined)U.billCounters[U.settings.bills[i].name]=d;}for(var j=0;j<U.settings.income.length;j++){if(U.incomeCounters[U.settings.income[j].name]===undefined)U.incomeCounters[U.settings.income[j].name]=d;}}
 
-function ubisCreateCards(){var names=["Inventory","Configure Realmheart","Configure Time Settings","Bills","Ledger","Prices & Goods","Bounty Board","Holidays","Events","Seasons"];for(var i=0;i<names.length;i++){if(!ubisFindCard(names[i])){try{addStoryCard(names[i],"(loading...)","Realmheart",names[i],"{}");log("[Realmheart] Created: "+names[i]);}catch(e){log("[Realmheart] Card error: "+e);}}}}
+function ubisCreateCards(){var U=state.ubis;var cc=U&&U.cardConfig;var names=["Inventory","Configure Realmheart","Configure Time Settings","Bills","Ledger","Prices & Goods","Bounty Board","Holidays","Events","Seasons"];var ccKeys=["Inventory","Configure Realmheart","Configure Time Settings","Bills","Ledger","Prices & Goods","Bounty Board","Holidays","Events","Seasons"];for(var i=0;i<names.length;i++){var enabled=!cc||(cc[ccKeys[i]]!==false);if(!enabled)continue;if(!ubisFindCard(names[i])){try{addStoryCard(names[i],"(loading...)","Realmheart",names[i],"{}");log("[Realmheart] Created: "+names[i]);}catch(e){log("[Realmheart] Card error: "+e);}}}}
 function ubisFindCard(title){if(!Array.isArray(storyCards))return null;for(var i=0;i<storyCards.length;i++){if(storyCards[i]&&storyCards[i].title===title)return storyCards[i];}return null;}
 function ubisWriteCard(title,entry){var card=ubisFindCard(title);if(!card){try{addStoryCard(title,entry,"Realmheart",title,"{}");}catch(e){}return;}card.entry=entry;try{card.description=JSON.stringify({_ubis:true,v:"2"});}catch(e){}}
 function ubisCardLines(t){var c=ubisFindCard(t);if(!c||!c.entry||c.entry==="(loading...)")return null;return c.entry.split("\n");}
@@ -248,13 +254,14 @@ function ubisCardLines(t){var c=ubisFindCard(t);if(!c||!c.entry||c.entry==="(loa
 // ------------------------------------------------------------
 // SECTION 6 — CARD READER FUNCTIONS  (parses card edits)
 // ------------------------------------------------------------
-function ubisReadAllCards(){ubisReadInventoryCard();ubisReadConfigCard();ubisReadTimeCard();ubisReadBillsCard();ubisReadLedgerCard();ubisReadPricesGoodsCard();ubisReadBountyCard();ubisReadHolidaysCard();ubisReadEventsCard();ubisReadSeasonsCard();}
-function ubisWriteAllCards(){var U=state.ubis;if(!U)return;var cc=U.cardConfig||{};if(!cc.masterEnabled)return;if(cc["Inventory"])ubisWriteCard("Inventory",ubisInventoryCardBody(U));if(cc["Configure Realmheart"])ubisWriteCard("Configure Realmheart",ubisConfigCardBody(U));if(cc["Configure Time Settings"])ubisWriteCard("Configure Time Settings",ubisTimeCardBody(U));if(cc["Bills"])ubisWriteCard("Bills",ubisBillsCardBody(U));if(cc["Ledger"])ubisWriteCard("Ledger",ubisLedgerCardBody(U));if(cc["Prices & Goods"])ubisWriteCard("Prices & Goods",ubisPricesGoodsCardBody(U));if(cc["Bounty Board"])ubisWriteCard("Bounty Board",ubisBountyCardBody(U));if(cc["Holidays"])ubisWriteCard("Holidays",ubisHolidaysCardBody(U));if(cc["Events"])ubisWriteCard("Events",ubisEventsCardBody(U));if(cc["Seasons"])ubisWriteCard("Seasons",ubisSeasonsCardBody(U));}
+function ubisReadAllCards(){ubisReadInventoryCard();ubisReadBillsCard();ubisReadConfigCard();ubisReadTimeCard();ubisReadLedgerCard();ubisReadPricesGoodsCard();ubisReadBountyCard();ubisReadHolidaysCard();ubisReadEventsCard();ubisReadSeasonsCard();}
+function ubisRemoveCard(title){var card=ubisFindCard(title);if(!card)return;try{removeStoryCard(card.id);}catch(e){}}function ubisWriteAllCards(){var U=state.ubis;if(!U)return;var cc=U.cardConfig||{};if(!cc.masterEnabled)return;var allNames=["Inventory","Configure Realmheart","Configure Time Settings","Bills","Ledger","Prices & Goods","Bounty Board","Holidays","Events","Seasons"];for(var ri=0;ri<allNames.length;ri++){if(cc[allNames[ri]]===false){ubisRemoveCard(allNames[ri]);}}if(cc["Inventory"])ubisWriteCard("Inventory",ubisInventoryCardBody(U));if(cc["Configure Realmheart"])ubisWriteCard("Configure Realmheart",ubisConfigCardBody(U));if(cc["Configure Time Settings"])ubisWriteCard("Configure Time Settings",ubisTimeCardBody(U));if(cc["Bills"])ubisWriteCard("Bills",ubisBillsCardBody(U));if(cc["Ledger"])ubisWriteCard("Ledger",ubisLedgerCardBody(U));if(cc["Prices & Goods"])ubisWriteCard("Prices & Goods",ubisPricesGoodsCardBody(U));if(cc["Bounty Board"])ubisWriteCard("Bounty Board",ubisBountyCardBody(U));if(cc["Holidays"])ubisWriteCard("Holidays",ubisHolidaysCardBody(U));if(cc["Events"])ubisWriteCard("Events",ubisEventsCardBody(U));if(cc["Seasons"])ubisWriteCard("Seasons",ubisSeasonsCardBody(U));}
 
 function ubisReadInventoryCard(){var lines=ubisCardLines("Inventory");if(!lines)return;var U=state.ubis;var inI=false,inW=false,newInv={},foundInv=false;var iL=ubisGetInventoryLabel().toUpperCase();var wL=ubisGetCurrencyLabel().toUpperCase();for(var i=0;i<lines.length;i++){var t=lines[i].trim();if(t.indexOf("== "+iL)===0||t.indexOf("== INVENTORY")===0||t.indexOf("== LOADOUT")===0){inI=true;inW=false;foundInv=true;continue;}if(t.indexOf("== "+wL)===0||t.indexOf("== WALLET")===0||t.indexOf("== PURSE")===0||t.indexOf("== ACCOUNT")===0){inI=false;inW=true;continue;}if(t.indexOf("==")===0){inI=false;inW=false;continue;}if(!t||t.charAt(0)==="["||t.charAt(0)==="/"||t.charAt(0)==="-"||t.indexOf("Total")===0||t.indexOf("(empty)")!==-1)continue;if(inI){var c=t.indexOf(":");if(c<1)continue;var iN=t.slice(0,c).trim();var qS=t.slice(c+1).trim();var qM=qS.match(/\(Qty:\s*(\d+)\)/i)||qS.match(/^(\d+)/);if(qM&&iN.length>0&&iN.length<60){var qty=parseInt(qM[1],10);if(qty>0)newInv[iN]=qty;}}if(inW){var nb=ubisParseBalanceStr(t);if(nb>=0)U.balance=nb;}}if(foundInv)U.inventory=newInv;}
 
 function ubisReadConfigCard(){var lines=ubisCardLines("Configure Realmheart");if(!lines)return;
 var U=state.ubis;
+var ubOldPreset=U.settings?U.settings.preset:null;
 for(var i=0;i<lines.length;i++){var line=lines[i].trim();if(!line||line.charAt(0)==="="||line.charAt(0)==="-"||line.charAt(0)==="/"||line.charAt(0)==="["||line.charAt(0)==="(")continue;var colon=line.indexOf(":");if(colon<1)continue;var rk=line.slice(0,colon).trim().toLowerCase().replace(/[\s\/\-&]+/g,"");var val=line.slice(colon+1).trim();
 // FIX: extract only the first word before any space or dash so inline descriptions
 // like "ON  -- AI writes NPCs only" correctly resolve to "on"
@@ -263,7 +270,7 @@ var isOn=(firstWord==="on"||firstWord==="true"||firstWord==="yes");
 var isOff=(firstWord==="off"||firstWord==="false"||firstWord==="no");
 var nv=parseInt(val,10);
 switch(rk){
-  case "preset":var vp=["fantasy","modern","sci-fi"];var pv=val.split("(")[0].toLowerCase().trim();if(vp.indexOf(pv)!==-1&&pv!==U.settings.preset){U.settings.preset=pv;if(pv==="fantasy"&&(!U.settings.tiers||!U.settings.tiers.length))U.settings.tiers=UBIS_TIERS.map(function(t){return Object.assign({},t);});U.settings.priceList=JSON.parse(JSON.stringify(ubisGetDefaultPriceList()));U.settings.holidays=JSON.parse(JSON.stringify(ubisGetDefaultHolidays()));U.settings.bills=JSON.parse(JSON.stringify(ubisGetDefaultBills()));U.settings.income=JSON.parse(JSON.stringify(ubisGetDefaultIncome()));ubisEnsureCounters(U);}break;
+  case "preset":var vp=["fantasy","modern","sci-fi"];var pv=val.split("(")[0].toLowerCase().trim();if(vp.indexOf(pv)!==-1&&pv!==U.settings.preset){U.settings.preset=pv;if(pv==="fantasy"&&(!U.settings.tiers||!U.settings.tiers.length))U.settings.tiers=UBIS_TIERS.map(function(t){return Object.assign({},t);});U.settings.priceList=JSON.parse(JSON.stringify(ubisGetDefaultPriceList()));U.settings.holidays=JSON.parse(JSON.stringify(ubisGetDefaultHolidays()));if(pv==="modern")U.settings.bills=JSON.parse(JSON.stringify([{name:"Rent",amount:1200,intervalDays:30,enabled:true,items:[]}]));else if(pv==="sci-fi")U.settings.bills=JSON.parse(JSON.stringify([{name:"Berth Fee",amount:300,intervalDays:30,enabled:true,items:[]}]));else U.settings.bills=JSON.parse(JSON.stringify([{name:"Inn Stay",amount:20,intervalDays:1,enabled:true,items:[]}]));if(pv==="modern")U.settings.income=JSON.parse(JSON.stringify([{name:"Job Salary",amount:600,intervalDays:7,enabled:false}]));else if(pv==="sci-fi")U.settings.income=JSON.parse(JSON.stringify([{name:"Crew Stipend",amount:250,intervalDays:7,enabled:false}]));else U.settings.income=JSON.parse(JSON.stringify([{name:"Merchant Salary",amount:100,intervalDays:30,enabled:false}]));ubisEnsureCounters(U);}break;
   case "script":if(isOn||isOff)U.settings.scriptEnabled=isOn;break;
   case "inventoryauto":if(isOn||isOff)U.settings.inventoryEnabled=isOn;break;
   case "currencyauto":if(isOn||isOff)U.settings.currencyEnabled=isOn;break;
@@ -288,7 +295,7 @@ switch(rk){
   case "tier1name":case "goldname":if(val.length>0&&val.length<30&&U.settings.tiers){U.settings.tiers[0].name=val;U.settings.tiers[0].plural=val;}break;
   case "tier2name":case "silvername":if(val.length>0&&val.length<30&&U.settings.tiers){U.settings.tiers[1].name=val;U.settings.tiers[1].plural=val;}break;
   case "tier3name":case "coppername":if(val.length>0&&val.length<30&&U.settings.tiers){U.settings.tiers[2].name=val;U.settings.tiers[2].plural=val;}break;
-}}}
+}}if(U.settings&&U.settings.preset!==ubOldPreset){if(U.settings.preset==="modern"){U.settings.modernCurrencyName=null;U.settings.modernCurrencySymbol=null;}if(U.settings.preset==="sci-fi"){U.settings.scifiCurrencyName=null;U.settings.scifiCurrencySymbol=null;}if(U.settings.preset==="fantasy"){U.settings.modernCurrencyName=null;U.settings.modernCurrencySymbol=null;U.settings.scifiCurrencyName=null;U.settings.scifiCurrencySymbol=null;}}}
 
 function ubisReadTimeCard(){var lines=ubisCardLines("Configure Time Settings");if(!lines)return;var U=state.ubis;var ubOldY=U.time.year,ubOldM=U.time.month,ubOldD=U.time.day;for(var i=0;i<lines.length;i++){var line=lines[i].trim();if(!line||line.charAt(0)==="="||line.charAt(0)==="-"||line.charAt(0)==="["||line.charAt(0)==="(")continue;var colon=line.indexOf(":");if(colon<1)continue;var rk=line.slice(0,colon).trim().toLowerCase().replace(/[\s\/\-]+/g,"");var val=line.slice(colon+1).trim();var nv=parseInt(val,10);if(rk==="hrsturn"||rk==="hoursturn"||rk==="hperturn"){var h=ubisParseHPT(val);if(h>0)U.settings.hoursPerTurn=h;continue;}if(rk==="year"&&!isNaN(nv)&&nv>0){if(nv!==U.time.year)U.time.year=nv;continue;}if(rk==="month"&&!isNaN(nv)&&nv>=1&&nv<=12){if(nv!==U.time.month)U.time.month=nv;continue;}if(rk==="day"){var md=UBIS_MONTHS[U.time.month-1].days;if(!isNaN(nv)&&nv>=1&&nv<=md&&nv!==U.time.day)U.time.day=nv;continue;}if(rk==="hour"&&!isNaN(nv)&&nv>=0&&nv<=23&&nv!==Math.floor(U.time.hour)){U.time.hour=nv;U.time.totalHours=ubisTotalDays(U.time)*24+nv;continue;}}if(U.time.year!==ubOldY||U.time.month!==ubOldM||U.time.day!==ubOldD){var ubDayDiff=ubisAbsoluteDay(U.time.year,U.time.month,U.time.day)-ubisAbsoluteDay(ubOldY,ubOldM,ubOldD);U.time.totalHours=(U.time.totalHours||0)+(ubDayDiff*24);}}
 
@@ -486,7 +493,7 @@ function onOutput_UBIS(text){var U=state.ubis;if(!U)return text;
 if(U.pendingCmd&&U.pendingCmd!==""){var msg=U.pendingCmd;U.pendingCmd="";ubisWriteAllCards();return msg+"\n"+text;}
 if(!U.settings.scriptEnabled){ubisWriteAllCards();return text;}
 U.denied=[];U.turnCount+=1;var out=[];
-var db=ubisTotalDays(U.time);ubisAdvanceHours(U,U.settings.hoursPerTurn);
+var db=ubisTotalDays(U.time);if(U.settings.timeEnabled)ubisAdvanceHours(U,U.settings.hoursPerTurn);
 if(ubisTotalDays(U.time)!==db){U.currentWeather=ubisRollWeather(U);U.weatherDay=ubisTotalDays(U.time);}
 var sk=0;if(U.settings.timeEnabled){sk=ubisDetectTimeSkip(text);if(sk>0){var dbs=ubisTotalDays(U.time);ubisAdvanceHours(U,sk);ubisLedger(U,"time","Skip +"+ubisFormatDuration(sk),0);if(ubisTotalDays(U.time)!==dbs){U.currentWeather=ubisRollWeather(U);U.weatherDay=ubisTotalDays(U.time);}}}
 var notices=[];if(U.settings.billsEnabled){notices=ubisProcessBills(U);for(var ni=0;ni<notices.length;ni++)out.push(notices[ni]);}
