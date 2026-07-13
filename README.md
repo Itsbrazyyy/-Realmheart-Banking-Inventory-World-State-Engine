@@ -9,6 +9,8 @@
 It handles currency, inventory, bills, income, time progression, weather, holidays, events, price references, and story card syncing — all automatically. Designed for players who want deeper worlds, consistent rules, and a smooth quality-of-life experience.
 
 ### Check out the Realmheart Scenario Collection here: https://play.aidungeon.com/scenario/rbgcFn0lVoLn/rh-a-name-worth-earning?share=true&published=true 
+
+### Same Scenario but merged with IS and USC: https://play.aidungeon.com/scenario/IBlEyKw336FW/merged-a-name-worth-earning?share=true&published=true
 ---
 
 ## ✨ Features
