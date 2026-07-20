@@ -11,6 +11,8 @@ It handles currency, inventory, bills, income, time progression, weather, holida
 ### Check out the Realmheart Scenario Collection here: https://play.aidungeon.com/scenario/rbgcFn0lVoLn/rh-a-name-worth-earning?share=true&published=true 
 
 ### Same Scenario but merged with IS and USC: https://play.aidungeon.com/scenario/IBlEyKw336FW/merged-a-name-worth-earning?share=true&published=true
+
+### Learn More about Realmheart Here: https://itsbrazyyy.github.io/-Realmheart-Banking-Inventory-World-State-Engine/
 ---
 
 ## ✨ Features
