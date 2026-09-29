@@ -6,7 +6,7 @@
 ![Realmheart Banner](https://i.postimg.cc/gkwmkG5n/AI-Dungeon-(2).png)
 
 ### Realmheart brings structure, immersion, and world-simulation to your AI Dungeon adventures.
-It handles currency, inventory, bills, income, time progression, weather, holidays, events, price references, and story card syncing — all automatically. Designed for players who want deeper worlds, consistent rules, and a smooth quality-of-life experience.
+It handles currency, inventory, bills, income, time progression, weather, holidays, events, a full Gambling Hall, price references, and story card syncing — all automatically. Designed for players who want deeper worlds, consistent rules, and a smooth quality-of-life experience.
 
 ### Check out the Realmheart Scenario Collection here: https://play.aidungeon.com/scenario/rbgcFn0lVoLn/rh-a-name-worth-earning?share=true&published=true 
 
@@ -21,18 +21,22 @@ It handles currency, inventory, bills, income, time progression, weather, holida
 | --- | --- |
 | **Automated Currency System** | 💵 Wallet tracking that automatically adds, deducts, converts, and declines purchases when funds are insufficient. |
 | **Smart Inventory Tracking** | 🎒 Auto-detects item gains and losses using expanded keyword triggers for seamless inventory updates. |
+| **Unified Purchase & Sale** | 🛒 Buying and selling move currency and inventory together in one coordinated action — "You buy a torch for 5 gold" updates both at once. Works with both word format ("500 dollars") and symbol format ("$500"). |
+| **Gambling Hall** | 🎰 A full casino running behind your story — Jackpot, Coin Flip, Dice, and High Stakes out of the box, plus fully custom player-defined games. Bet currency, real inventory items, or pure narrative stakes. |
+| **Resource Wells & Drains** | ⛏️ Item-based recurring income and costs — a mine producing ore, a forge eating iron — running on the same schedule as Bills. |
+| **Hardmode Consequences** | 🔥 Optional toggle: bills and drains only take what you can afford instead of going negative, with escalating story consequences for repeated shortfalls. |
 | **Time Progression Engine** | 🕰️ Automatically advances time based on narration cues or player commands, including hours, days, weeks, and months. |
 | **Bills & Income Automation** | 💳 Recurring expenses and income with automatic ledger logging and time-based scheduling. |
 | **Preset System** | 🌐 Choose from Fantasy, Modern, or Sci-Fi presets. Each preset comes with appropriate default holidays, price lists, inventory, currency, and board labels out of the box. |
 | **Holidays Story Card** | 🎊 Built-in holidays synced to Realmheart time. Fantasy, Modern, and Sci-Fi each have their own default sets. Fully editable in-game. |
-| **Events Story Card** | 📆 Create one-time or repeating events with optional lead-time reminders. Resolved single-day events no longer repeat until the following day. |
-| **Seasonal Weather System** | 🌦️ Configurable weather tables for Fantasy, Modern, and Sci-Fi settings, automatically injected into AI context. |
+| **Events Story Card** | 📆 Create one-time or repeating events with optional lead-time reminders, including events that span New Year's Eve. Resolved single-day events no longer repeat until the following day. |
+| **Seasonal Weather System** | 🌦️ Configurable weather tables for Fantasy, Modern, and Sci-Fi settings, automatically injected into AI context. Correctly regenerates when switching presets mid-game. |
 | **Prices & Goods Card** | 📦 Cost-of-living reference for realistic NPC pricing. Preset-appropriate categories for each setting. Edit values directly on the card — no template required. |
 | **Bounty Board** | 🎯 Story card for defining minimum and maximum payouts for quests, jobs, and contracts. Labeled as Job Board (modern) or Contract Board (sci-fi) automatically. Edit payout values directly on the card. |
 | **Ledger** | 📒 Stores up to 50 transactions internally. The story card displays the 20 most recent. Use `/ledger` to view the full history. |
 | **Narrator Mode** | 🧭 Toggle to prevent the AI from narrating or deciding actions for your character. Can be set in the config block at script setup or toggled in-game. |
 | **Story Card Syncing** | 🔄 Inventory, wallet, bills, time, and config cards stay perfectly updated every turn. |
-| **Slash Commands** | ⌨️ Full command suite including `/help`, `/keywords`, `/rh enable\|disable\|toggle`, and more. Both `/rh` and `/ubis` prefixes are supported. |
+| **Slash Commands** | ⌨️ Full command suite including `/help`, `/keywords`, `/jackpot start`, `/gamble end`, `/rh enable\|disable\|toggle`, and more. Works in Do, Say, and Story mode alike. Both `/rh` and `/ubis` prefixes are supported. |
 
 ---
 
@@ -94,7 +98,7 @@ modifier(text);
 #### 11. Go to your **Library** tab. Delete everything inside it.
 
 #### 12. Open the link below, copy the entire Library script, and paste it into your Library tab:
-[Realmheart Library V2.3](https://github.com/Itsbrazyyy/-Realmheart-Banking-Inventory-World-State-Engine/blob/e3567e6beee992cc87efdb1aabbd44c645eeeb92/Realmheart-Library-Script-V2.3txt)
+[Realmheart Library V2.5](https://github.com/Itsbrazyyy/-Realmheart-Banking-Inventory-World-State-Engine/blob/ef21f7100f6b5d1444585e5e4b478d7a3cdca8ad/Realmheart-Library-Script-V2.5txt)
 
 #### 13. Click **SAVE** in the top right corner.
 
@@ -109,9 +113,10 @@ modifier(text);
 3. Use `/help` for a full overview of features and commands. Use `/keywords` to see every word and phrase Realmheart detects automatically.
 4. When you want currency to be tracked, avoid adding extra words between the amount and currency name. For example: "I received a single gold coin" 🚫 vs "I received a gold coin" ✅
 5. Different AI models may behave differently with detection and narrator mode.
-6. If you use `/rh disable` to disable the script and want to re-enable it, type `/rh enable` or `/ubis enable` directly in Story mode. You can also switch Script from OFF to ON in the **Configure Realmheart** story card.
-7. Slash commands only work in **Story** mode — not Do, Say, or See mode.
+6. If you use `/rh disable` to disable the script and want to re-enable it, type `/rh enable` or `/ubis enable` directly in a Story turn. You can also switch Script from OFF to ON in the **Configure Realmheart** story card.
+7. Slash commands work in Do, Say, and Story mode alike — just make sure you're typing directly into a turn.
 8. For multi-day events with slow time progression (e.g. 5 minutes per turn), consider manually toggling the event off once it has been resolved. Single-day events now automatically suppress after firing once and clear the following day.
+9. Want to try the Gambling Hall? Just say it in character — "I bet 50 gold on Jackpot" — or use `/jackpot start`, `/coinflip start`, `/dice start`, or `/highstakes start`. Say "I quit," "I'm done," or use `/gamble end` to walk away.
 
 ---
 
@@ -134,6 +139,21 @@ modifier(text);
 
 <details>
 <summary><strong>Click to expand</strong></summary>
+
+### V2.5 — Gambling Hall & Resource Economy
+- ✅ New: **Gambling Hall** — Jackpot, Coin Flip, Dice, and High Stakes built in, plus fully custom player-defined games via `ADD GAME`, with currency, item, or narrative stake types
+- ✅ New: bet real inventory items, not just currency — win and keep it, lose and it's genuinely gone
+- ✅ New: **Resource Wells & Drains** — item-based recurring income and costs, living on the Bills card
+- ✅ New: optional **Hardmode Consequences** — bills and drains only take what you can afford, with real story consequences for repeated shortfalls
+- ✅ New: **Purchase & Sale detection** — buying and selling now move currency and inventory together in one coordinated action, in either "$500" or "500 dollars" format
+- ✅ Slash commands now work in Do mode, Say mode, and plain narration alike — not just Story mode
+- ✅ Yearly events spanning New Year's Eve (e.g. Dec 30 → Jan 2) now correctly trigger, instead of never showing as active or approaching
+- ✅ A time-skip phrase the AI writes into its own narration is no longer missed when another notification (an item pickup, a currency change) was already pending from the same turn
+- ✅ Seasons now correctly regenerate when switching presets mid-game, instead of keeping the previous preset's weather table under the new label
+- ✅ A wide pass of keyword detection — present and past tense now both work reliably for currency and item phrasing
+- ✅ Item names extract more cleanly — "a coat from the ground" now correctly adds just "Coat"
+- ✅ Inventory no longer double-counts the same item due to capitalization differences, and self-corrects if it ever happens
+- ✅ Custom game and card names are more forgiving — a hyphenated name like "High-Low" now works whether you type the hyphen or a space
 
 ### V2.3 - Bug Fixes Pass 
 - ✅ Time-skip detection improved — better handling of past tense, word numbers, and minute-level skips
