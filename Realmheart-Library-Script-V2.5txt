@@ -398,6 +398,7 @@ switch(rk){
   case "holidays":if(isOn||isOff)U.cardConfig["Holidays"]=isOn;break;
   case "events":if(isOn||isOff)U.cardConfig["Events"]=isOn;break;
   case "seasons":if(isOn||isOff)U.cardConfig["Seasons"]=isOn;break;
+  case "gamblinghall":if(isOn||isOff)U.cardConfig["Gambling Hall"]=isOn;break;
   case "tier1value":case "goldvalue":if(!isNaN(nv)&&nv>0&&U.settings.tiers)U.settings.tiers[0].valueInBase=nv;break;
   case "tier2value":case "silvervalue":if(!isNaN(nv)&&nv>0&&U.settings.tiers)U.settings.tiers[1].valueInBase=nv;break;
   case "tier3value":case "coppervalue":if(!isNaN(nv)&&nv>0&&U.settings.tiers)U.settings.tiers[2].valueInBase=nv;break;
