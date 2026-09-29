@@ -96,7 +96,7 @@ modifier(text);
 #### 11. Go to your **Library** tab. Delete everything inside it.
 
 #### 12. Open the link below, copy the entire Library script, and paste it into your Library tab:
-[Realmheart Library V2.5](https://github.com/Itsbrazyyy/-Realmheart-Banking-Inventory-World-State-Engine/blob/main/Realmheart-Library-Script-V2.5.txt)
+[Realmheart Library V2.5](https://github.com/Itsbrazyyy/-Realmheart-Banking-Inventory-World-State-Engine/blob/ef21f7100f6b5d1444585e5e4b478d7a3cdca8ad/Realmheart-Library-Script-V2.5txt)
 
 #### 13. Click **SAVE** in the top right corner.
 
