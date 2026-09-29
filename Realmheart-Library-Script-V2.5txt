@@ -72,14 +72,14 @@ var UBIS_CONFIG={
   // — Feature Toggles ——————————————————————————————————————
   scriptEnabled:true,inventoryEnabled:true,currencyEnabled:true,
   timeEnabled:true,billsEnabled:true,narratorMode:false,
-  gamblingEnabled:true,seasonsEnabled:true,requireInventoryForSales:false,
+  gamblingEnabled:false,seasonsEnabled:true,requireInventoryForSales:false,
 
   // — Label Overrides (null = use preset default) ——————————
   currencyLabel:null,inventoryLabel:null,
 
   // — Card Visibility ——————————————————————————————————————
   cardsEnabled:{master:true,inventory:true,configUBIS:true,configTime:true,
-    bills:true,ledger:true,pricesGoods:true,holidays:true,events:true,seasons:true,gamblingHall:true},
+    bills:true,ledger:true,pricesGoods:true,holidays:true,events:true,seasons:true,gamblingHall:false},
   currencyContextEnabled:true,
 
   // — World Data ——————————————————————————————————————————
